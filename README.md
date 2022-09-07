@@ -7,10 +7,10 @@ Experimenting with K8s HorizontalPodAutoscaler (HPA) by completing the recommend
 - [x] [HorizontalPodAutoscaler Walkthrough](https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale-walkthrough/).
 - [ ] Autoscale on multiple metrics and custom metrics [walkthrough](https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale-walkthrough/#autoscaling-on-multiple-metrics-and-custom-metrics)
 
-## 🗺️ Table of contents
+## 🧭 Table of contents
 
 - [Experimenting with K8s HorizontalPodAutoscaler](#experimenting-with-k8s-horizontalpodautoscaler)
-  - [🗺️ Table of contents](#️-table-of-contents)
+  - [🧭 Table of contents](#-table-of-contents)
   - [:fuelpump: Minikube setup](#fuelpump-minikube-setup)
   - [:rocket: Quick start](#rocket-quick-start)
   - [➕ Useful commands](#-useful-commands)
@@ -206,7 +206,7 @@ We will need an API to create the following:
 - `Metric` Enum - The metric to scale on
 - `Scaling Policy` construct - The scaling policy object (used in autoscale/v2's `behavior` field)
 - Possibly add a `maintenanceMode` option to `Pod`/`Container` resources (to prevent scaling on them). This would be useful for pods that are used for maintenance tasks (e.g. database migrations). See [Implicit maintenance-mode deactivation docs](https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/#implicit-maintenance-mode-deactivation)
--
+
 
 ## :arrow_up: Migrating to HPA
 
