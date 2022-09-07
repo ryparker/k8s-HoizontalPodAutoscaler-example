@@ -139,6 +139,7 @@ spec:
             - --metric-resolution=15s
           image: k8s.gcr.io/metrics-server/metrics-server:v0.6.1
           imagePullPolicy: IfNotPresent
+          # Added to avoid the TLS validation as suggested in this issue: https://github.com/kubernetes-sigs/metrics-server/issues/196#issuecomment-602760244
           command:
             - /metrics-server
             - --kubelet-insecure-tls

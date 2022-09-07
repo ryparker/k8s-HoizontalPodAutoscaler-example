@@ -11,7 +11,6 @@ Experimenting with K8s HorizontalPodAutoscaler (HPA) by completing the recommend
 
 - [Experimenting with K8s HorizontalPodAutoscaler](#experimenting-with-k8s-horizontalpodautoscaler)
   - [🧭 Table of contents](#-table-of-contents)
-  - [:fuelpump: Minikube setup](#fuelpump-minikube-setup)
   - [:rocket: Quick start](#rocket-quick-start)
   - [➕ Useful commands](#-useful-commands)
   - [:newspaper: Deploy Kubernetes Dashboard](#newspaper-deploy-kubernetes-dashboard)
@@ -27,10 +26,6 @@ Experimenting with K8s HorizontalPodAutoscaler (HPA) by completing the recommend
   - [:balance_scale: Quantities](#balance_scale-quantities)
   - [:bulb: Possible APIs](#bulb-possible-apis)
   - [:arrow_up: Migrating to HPA](#arrow_up-migrating-to-hpa)
-
-## :fuelpump: Minikube setup
-
-To resolve the `metrics-server error because it doesn’t contain any IP SANs` error in Minikube (related to this [GitHub issue](https://github.com/kubernetes-sigs/metrics-server/issues/196)), I followed this [blog post](https://thospfuller.com/2020/11/29/easy-kubernetes-metrics-server-install-in-minikube-in-five-steps/).
 
 ## :rocket: Quick start
 
@@ -192,7 +187,14 @@ By default, the HorizontalPodAutoscaler controller retrieves metrics from a seri
 
 Configuring the aggregation layer allows the Kubernetes apiserver to be extended with additional APIs, which are not part of the core Kubernetes APIs. _[Docs](https://kubernetes.io/docs/tasks/extend-kubernetes/configure-aggregation-layer/)_
 
-Note, I was not required to configure this for the metrics-server to work. I'm not sure why it wasn't required...
+Note, I was not required to configure this for the metrics-server to work. Instead I disabled the TLS validation by adding a `command` to the container spec:
+
+```yaml
+ command:
+    - /metrics-server
+    - --kubelet-insecure-tls
+    - --kubelet-preferred-address-types=InternalIP
+```
 
 ## :balance_scale: Quantities
 
