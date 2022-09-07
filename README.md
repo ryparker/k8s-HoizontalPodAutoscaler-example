@@ -2,18 +2,18 @@
 
 [HPA docs](https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/) · [HPA v1 API ref](https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/horizontal-pod-autoscaler-v1/) · [HPA v2 API ref](https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/horizontal-pod-autoscaler-v2/) · [kubectl autoscale commands](https://kubernetes.io/docs/reference/generated/kubectl/kubectl-commands#autoscale) · [Minikube docs](https://minikube.sigs.k8s.io/docs/handbook/config/)
 
-Experimenting with K8s HorizontalPodAutoscaler by completing the recommended walkthroughs and logging notes in this README a long the way.
+Experimenting with K8s HorizontalPodAutoscaler (HPA) by completing the recommended walkthroughs and logging notes in this README a long the way.
 
 - [x] [HorizontalPodAutoscaler Walkthrough](https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale-walkthrough/).
 - [ ] Autoscale on multiple metrics and custom metrics [walkthrough](https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale-walkthrough/#autoscaling-on-multiple-metrics-and-custom-metrics)
 
-## Table of contents
+## 🗺️ Table of contents
 
 - [Experimenting with K8s HorizontalPodAutoscaler](#experimenting-with-k8s-horizontalpodautoscaler)
-  - [Table of contents](#table-of-contents)
+  - [🗺️ Table of contents](#️-table-of-contents)
   - [:fuelpump: Minikube setup](#fuelpump-minikube-setup)
   - [:rocket: Quick start](#rocket-quick-start)
-  - [Useful commands](#useful-commands)
+  - [➕ Useful commands](#-useful-commands)
   - [:newspaper: Deploy Kubernetes Dashboard](#newspaper-deploy-kubernetes-dashboard)
   - [:nut_and_bolt: How HPA works](#nut_and_bolt-how-hpa-works)
   - [:chart_with_upwards_trend: Defining metrics on resources](#chart_with_upwards_trend-defining-metrics-on-resources)
@@ -78,7 +78,7 @@ To resolve the `metrics-server error because it doesn’t contain any IP SANs` e
 
 8. Watch the HorizontalPodAutoscaler scale down (terminal used in step 6)
 
-## Useful commands
+## ➕ Useful commands
 
 View the HPA status
 
@@ -121,19 +121,17 @@ kubectl describe hpa php-apache
 
 - The HPA controller periodically queries the metrics API for the current CPU utilization of the pods in the deployment. - Default 15 seconds
 
-- The algorithm for scaling is:
+- The algorithm for scaling is: `desiredReplicas = ceil[currentReplicas * ( currentMetricValue / desiredMetricValue )]`
 
-  desiredReplicas = ceil[currentReplicas * ( currentMetricValue / desiredMetricValue )]
+  - The control plane skips any scaling action if the ratio is sufficiently close to 1.0 (within a globally-configurable tolerance, 0.1 by default)._
 
-  _The control plane skips any scaling action if the ratio is sufficiently close to 1.0 (within a globally-configurable tolerance, 0.1 by default)._
-
-  _All Pods with a deletion timestamp set (objects with a deletion timestamp are in the process of being shut down / removed) are ignored, and all failed Pods are discarded._
+  - All Pods with a deletion timestamp set (objects with a deletion timestamp are in the process of being shut down / removed) are ignored, and all failed Pods are discarded._
 
 ## :chart_with_upwards_trend: Defining metrics on resources
 
-`targetAverageValue` · `targetAverageUtilization`
-
-`averageUtilization` - Utilization is the ratio between the current usage of resource to the requested resources of the pod.
+- `targetAverageValue`
+- `targetAverageUtilization`
+- `averageUtilization` - Utilization is the ratio between the current usage of resource to the requested resources of the pod.
 
 ## :triangular_flag_on_post: HPA flags
 
@@ -173,11 +171,11 @@ This can be done in the following way:
 
 Useful to know since HPA scales depending on pod readiness. _[Docs](https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle/#pod-conditions)_
 
-`PodScheduled` - the Pod has been scheduled to a node.
-`PodHasNetwork` - (alpha feature; must be enabled explicitly) the Pod sandbox has been successfully created and networking configured.
-`ContainersReady` - all containers in the Pod are ready.
-`Initialized` - all init containers have completed successfully.
-`Ready` - the Pod is able to serve requests and should be added to the load balancing pools of all matching Services.
+- `PodScheduled` - the Pod has been scheduled to a node.
+- `PodHasNetwork` - (alpha feature; must be enabled explicitly) the Pod sandbox has been successfully created and networking configured.
+- `ContainersReady` - all containers in the Pod are ready.
+- `Initialized` - all init containers have completed successfully.
+- `Ready` - the Pod is able to serve requests and should be added to the load balancing pools of all matching Services.
 
 ## :mag_right: Support for metrics APIs
 
@@ -186,15 +184,15 @@ By default, the HorizontalPodAutoscaler controller retrieves metrics from a seri
 - The API aggregation layer is enabled.
 
 - The corresponding APIs are registered:
-  - For resource metrics, this is the metrics.k8s.io API, generally provided by [metrics-server](https://github.com/kubernetes-sigs/metrics-server#deployment). It can be launched as a cluster add-on.
-  - For custom metrics, this is the custom.metrics.k8s.io API. It's provided by "adapter" API servers provided by metrics solution vendors. Check with your metrics pipeline to see if there is a Kubernetes metrics adapter available. [See boilerplate to get started](https://github.com/kubernetes-sigs/custom-metrics-apiserver)
-  - For external metrics, this is the external.metrics.k8s.io API. It may be provided by the custom metrics adapters provided above.
+  - For resource metrics, this is the `metrics.k8s.io` API, generally provided by [metrics-server](https://github.com/kubernetes-sigs/metrics-server#deployment). It can be launched as a cluster add-on.
+  - For custom metrics, this is the `custom.metrics.k8s.io` API. It's provided by "adapter" API servers provided by metrics solution vendors. Check with your metrics pipeline to see if there is a Kubernetes metrics adapter available. [See boilerplate to get started](https://github.com/kubernetes-sigs/custom-metrics-apiserver)
+  - For external metrics, this is the `external.metrics.k8s.io` API. It may be provided by the custom metrics adapters provided above.
 
 ## :key: Aggregation layer
 
-[Docs](https://kubernetes.io/docs/tasks/extend-kubernetes/configure-aggregation-layer/)
+Configuring the aggregation layer allows the Kubernetes apiserver to be extended with additional APIs, which are not part of the core Kubernetes APIs. _[Docs](https://kubernetes.io/docs/tasks/extend-kubernetes/configure-aggregation-layer/)_
 
-Configuring the aggregation layer allows the Kubernetes apiserver to be extended with additional APIs, which are not part of the core Kubernetes APIs.
+Note, I was not required to configure this for the metrics-server to work. I'm not sure why it wasn't required...
 
 ## :balance_scale: Quantities
 
