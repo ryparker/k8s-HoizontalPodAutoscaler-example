@@ -4,7 +4,7 @@
 
 Experimenting with K8s HorizontalPodAutoscaler (HPA) by completing the recommended walkthroughs and logging notes in this README a long the way.
 
-- [x] [HorizontalPodAutoscaler Walkthrough](https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale-walkthrough/).
+- [x] HorizontalPodAutoscaler [walkthrough](https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale-walkthrough/).
 - [ ] Autoscale on multiple metrics and custom metrics [walkthrough](https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale-walkthrough/#autoscaling-on-multiple-metrics-and-custom-metrics)
 
 ## 🧭 Table of contents
