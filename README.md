@@ -1,6 +1,6 @@
 # Experimenting with K8s HorizontalPodAutoscaler
 
-[HPA docs](https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/) · [HPA v1 API ref](https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/horizontal-pod-autoscaler-v1/) · [HPA v2 API ref](https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/horizontal-pod-autoscaler-v2/) · [kubectl autoscale commands](https://kubernetes.io/docs/reference/generated/kubectl/kubectl-commands#autoscale) · [Minikube docs](https://minikube.sigs.k8s.io/docs/handbook/config/)
+[HPA docs](https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/) · [HPA v1 API ref](https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/horizontal-pod-autoscaler-v1/) · [HPA v2 API ref](https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/horizontal-pod-autoscaler-v2/) · [kubectl autoscale commands](https://kubernetes.io/docs/reference/generated/kubectl/kubectl-commands#autoscale) · [Minikube docs](https://minikube.sigs.k8s.io/docs/handbook/config/) · [CDK8s+ docs](https://cdk8s.io/docs/latest/plus/)
 
 Experimenting with K8s HorizontalPodAutoscaler (HPA) by completing the recommended walkthroughs and logging notes in this README a long the way.
 
@@ -26,6 +26,7 @@ Experimenting with K8s HorizontalPodAutoscaler (HPA) by completing the recommend
   - [:balance_scale: Quantities](#balance_scale-quantities)
   - [:bulb: Possible APIs](#bulb-possible-apis)
   - [:arrow_up: Migrating to HPA](#arrow_up-migrating-to-hpa)
+  - [❓ Questions](#-questions)
 
 ## :rocket: Quick start
 
@@ -213,3 +214,7 @@ We will need an API to create the following:
 ## :arrow_up: Migrating to HPA
 
 [Migrating Deployments and StatefulSets to horizontal autoscaling docs](https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/#migrating-deployments-and-statefulsets-to-horizontal-autoscaling) - When an HPA is enabled, it is recommended that the value of spec.replicas of the Deployment and / or StatefulSet be removed from their manifest(s). If this isn't done, any time a change to that object is applied, for example via kubectl apply -f deployment.yaml, this will instruct Kubernetes to scale the current number of Pods to the value of the spec.replicas key. This may not be desired and could be troublesome when an HPA is active.
+
+## ❓ Questions
+
+- Should we be focused on v2 or v1 of the HPA API?
